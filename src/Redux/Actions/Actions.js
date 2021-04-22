@@ -2,7 +2,9 @@ import * as ActionList from "./ActionsList";
 import API from "../../API/API";
 import jwtdecode from "jwt-decode";
 import { toast } from "react-toastify";
-
+API.defaults.headers.common["x-auth-token"] = window.localStorage.getItem(
+  "Token"
+);
 const SUCCESS = (msg) => {
   return toast.success(msg, {
     position: "top-right",
@@ -43,6 +45,7 @@ export const TOKEN = (payload) => ({
 export const USER = (data) => {
   return async (dispatch) => {
     await window.localStorage.setItem("Token", data);
+    API.defaults.headers.common["x-auth-token"] = data;
     dispatch(TOKEN(jwtdecode(data)));
     dispatch(IS_LOGGED_IN());
   };
@@ -446,7 +449,7 @@ export const REMOVE_USER_RESTRICTION = (
 
 export const DELETE_USER = (id, accessedForm, callback, errorCb) => {
   return async (dispatch) => {
-    await API.delete("/user/" + id)
+    await API.delete("/admin/user" + id)
       .then((res) => {
         if (accessedForm === "User") {
           dispatch(GET_USERS_LIST(callback));

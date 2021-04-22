@@ -33,8 +33,7 @@ function App() {
       <div style={{ flex: 1 }}>
         <CssBaseline />
         <Switch>
-          <Route path="/not-found" component={NotFound} />
-          <Route path="/not-authorized" component={NotAuthorized} />
+          <Route path="/" exact component={Login} />
           <Route
             path="/dashboard"
             exact
@@ -139,7 +138,9 @@ function App() {
               <DashBoard content={<Setting />} var={{ setting: "contained" }} />
             }
           />
-          <Route path="/" exact component={Login} />
+
+          <Route path="/not-found" component={NotFound} />
+          <Route path="/not-authorized" component={NotAuthorized} />
           <Redirect to="/not-found" />
         </Switch>
       </div>
